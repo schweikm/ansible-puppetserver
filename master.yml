@@ -38,6 +38,15 @@
         group: root
         mode: 0644
 
+    - name: Deliver the puppet.conf config
+      template:
+        src: templates/puppet.conf.j2
+        dest: /etc/puppetlabs/puppet/puppet.conf
+        owner: root
+        group: root
+        mode: 0644
+
+
     - name: Start and enable service
       service:
         name: puppetserver
