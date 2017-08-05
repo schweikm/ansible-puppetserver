@@ -1,5 +1,3 @@
-# {{ ansible_managed }}
-
 [puppet5]
 name=Puppet 5 Repository el 7 - $basearch
 baseurl=http://yum.puppetlabs.com/puppet5/el/7/$basearch

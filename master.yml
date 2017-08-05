@@ -1,6 +1,10 @@
 ---
 - name: Configure Puppet Server 5.0
   hosts: puppetmaster.turbo.local
+
+  vars:
+    max_memory: 1g
+
   tasks:
     - name: Install RPM GPG Key
       copy:
@@ -9,3 +13,33 @@
         owner: root
         group: root
         mode: 0644
+
+    - name: Install Repo file
+      copy:
+        src: files/puppet5.repo
+        dest: /etc/yum.repos.d/puppet5.repo
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Install Puppet packages
+      yum:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - puppet-agent
+        - puppetserver
+
+    - name: Deliver puppetserver config
+      template:
+        src: templates/puppetserver.j2
+        dest: /etc/sysconfig/puppetserver
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Start and enable service
+      service:
+        name: puppetserver
+        state: started
+        enabled: true
