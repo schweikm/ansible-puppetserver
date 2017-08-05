@@ -1,0 +1,11 @@
+---
+- name: Configure Puppet Server 5.0
+  hosts: puppetmaster.turbo.local
+  tasks:
+    - name: Install RPM GPG Key
+      copy:
+        src: files/RPM-GPG-KEY-puppet5
+        dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-puppet5
+        owner: root
+        group: root
+        mode: 0644

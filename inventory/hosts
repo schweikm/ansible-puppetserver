@@ -1,0 +1,8 @@
+[master]
+puppetmaster.turbo.local
+
+[db]
+puppetdb.turbo.local
+
+[agent]
+puppetagent.turbo.local
