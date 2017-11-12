@@ -1,8 +1,8 @@
-[master]
-puppetmaster.turbo.local
+[server]
+puppetserver.turbo.local
 
 [db]
 puppetdb.turbo.local
 
-[agent]
-puppetagent.turbo.local
+[nodes]
+puppetnode1.turbo.local

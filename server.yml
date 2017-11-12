@@ -6,31 +6,43 @@
     max_memory: 1g
 
   tasks:
-    - name: Install RPM GPG Key
+    - name: Install RPM GPG Keys
       copy:
-        src: files/RPM-GPG-KEY-puppet5
-        dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-puppet5
+        src: files/RPM-GPG-KEY-{{ item }}
+        dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-{{ item }}
         owner: root
         group: root
         mode: 0644
+      with_items:
+        - EPEL-7
+        - ius
+        - puppet5
 
-    - name: Import RPM GPG Key
-      command: rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-puppet5
+    - name: Import RPM GPG Keys
+      shell: rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-*
       changed_when: "1 == 0"
 
-    - name: Install Repo file
+    - name: Install Repo files
       copy:
-        src: files/puppet5.repo
-        dest: /etc/yum.repos.d/puppet5.repo
+        src: files/{{ item }}.repo
+        dest: /etc/yum.repos.d/{{ item }}.repo
         owner: root
         group: root
         mode: 0644
+      with_items:
+        - epel
+        - ius
+        - puppet5
 
     - name: Install dependency packages
       yum:
         name: "{{ item }}"
         state: installed
+        update_cache: True
       with_items:
+        - git2u-gui
+        - git2u-gitk
+        - tig
         - java-1.8.0-openjdk
         - rubygem-deep_merge
 
@@ -38,6 +50,7 @@
       yum:
         name: "{{ item }}"
         state: installed
+        update_cache: True
       with_items:
         - puppet-agent
         - puppetserver
