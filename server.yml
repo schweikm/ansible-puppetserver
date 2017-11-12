@@ -1,6 +1,6 @@
 ---
-- name: Configure Puppet Server 5.0
-  hosts: puppetmaster.turbo.local
+- name: Configure Puppet Server 5.x
+  hosts: puppetserver.turbo.local
 
   vars:
     max_memory: 1g
@@ -14,6 +14,10 @@
         group: root
         mode: 0644
 
+    - name: Import RPM GPG Key
+      command: rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-puppet5
+      changed_when: "1 == 0"
+
     - name: Install Repo file
       copy:
         src: files/puppet5.repo
@@ -22,10 +26,18 @@
         group: root
         mode: 0644
 
+    - name: Install dependency packages
+      yum:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - java-1.8.0-openjdk
+        - rubygem-deep_merge
+
     - name: Install Puppet packages
       yum:
         name: "{{ item }}"
-        state: latest
+        state: installed
       with_items:
         - puppet-agent
         - puppetserver
