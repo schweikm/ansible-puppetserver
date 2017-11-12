@@ -54,6 +54,21 @@
         update_cache: True
       with_items:
         - puppetserver
+        - puppet-modules-forge
+        - puppet-modules-production
+        - puppet-hieradata-production
+      notify:
+        - restart_puppetserver
+
+    - name: Deliver hiera.yaml
+      template:
+        src: files/hiera.yaml
+        dest: /etc/puppetlabs/code/environments/production/hiera.yaml
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - restart_puppetserver
 
     - name: Deliver puppetserver config
       template:
