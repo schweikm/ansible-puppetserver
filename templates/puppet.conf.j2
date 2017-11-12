@@ -11,11 +11,11 @@
   pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
   codedir = /etc/puppetlabs/code
 
+  environment = production
   usecacheonfailure = False
 
   dns_alt_names = {{ ansible_hostname }}, puppet
 
 [agent]
   certname = {{ ansible_fqdn }}
-  environment = production
   server = {{ puppet_server }}
