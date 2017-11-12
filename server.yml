@@ -63,7 +63,7 @@
     - name: Deliver hiera.yaml
       template:
         src: files/hiera.yaml
-        dest: /etc/puppetlabs/code/environments/production/hiera.yaml
+        dest: /etc/puppetlabs/puppet/hiera.yaml
         owner: root
         group: root
         mode: 0644
