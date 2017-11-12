@@ -4,6 +4,7 @@
 
   vars:
     max_memory: 1g
+    puppet_server: puppetserver.turbo.local
 
   tasks:
     - name: Install RPM GPG Keys
@@ -52,7 +53,6 @@
         state: installed
         update_cache: True
       with_items:
-        - puppet-agent
         - puppetserver
 
     - name: Deliver puppetserver config
@@ -62,6 +62,8 @@
         owner: root
         group: root
         mode: 0644
+      notify:
+        - restart_puppetserver
 
     - name: Deliver the puppet.conf config
       template:
@@ -70,10 +72,17 @@
         owner: root
         group: root
         mode: 0644
-
+      notify:
+        - restart_puppetserver
 
     - name: Start and enable service
       service:
         name: puppetserver
         state: started
         enabled: true
+
+  handlers:
+    - name: restart_puppetserver
+      service:
+        name: puppetserver
+        state: restarted

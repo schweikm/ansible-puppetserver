@@ -4,12 +4,18 @@
 # - https://docs.puppetlabs.com/puppet/latest/reference/config_about_settings.html
 # - https://docs.puppetlabs.com/puppet/latest/reference/config_file_main.html
 # - https://docs.puppetlabs.com/puppet/latest/reference/configuration.html
-[master]
-vardir = /opt/puppetlabs/server/data/puppetserver
-logdir = /var/log/puppetlabs/puppetserver
-rundir = /var/run/puppetlabs/puppetserver
-pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
-codedir = /etc/puppetlabs/code
-
 [main]
-environment = production
+  vardir = /opt/puppetlabs/server/data/puppetserver
+  logdir = /var/log/puppetlabs/puppetserver
+  rundir = /var/run/puppetlabs/puppetserver
+  pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+  codedir = /etc/puppetlabs/code
+
+  usecacheonfailure = False
+
+  dns_alt_names = {{ ansible_hostname }}, puppet
+
+[agent]
+  certname = {{ ansible_fqdn }}
+  environment = production
+  server = {{ puppet_server }}
