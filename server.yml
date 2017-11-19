@@ -60,16 +60,6 @@
       notify:
         - restart_puppetserver
 
-    - name: Deliver hiera.yaml
-      template:
-        src: files/hiera.yaml
-        dest: /etc/puppetlabs/code/environments/production/hiera.yaml
-        owner: root
-        group: root
-        mode: 0644
-      notify:
-        - restart_puppetserver
-
     - name: Deliver puppetserver config
       template:
         src: templates/puppetserver.j2
